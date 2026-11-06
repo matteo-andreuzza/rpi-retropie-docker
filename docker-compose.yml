@@ -1,0 +1,26 @@
+# RetroPie on the HDMI TV of a Raspberry Pi 4, alongside the other server containers.
+name: rpi-retropie
+
+services:
+  retropie:
+    build: .
+    image: rpi-retropie:local
+    init: true   # forwards stop signals, so 'docker compose down' is quick
+    tty: true    # EmulationStation's launcher scripts expect a terminal
+    # No 'ports' and no 'privileged': nothing is reachable from the network.
+    devices:
+      - /dev/dri:/dev/dri   # GPU and HDMI output (DRM/KMS)
+      - /dev/snd:/dev/snd   # HDMI audio
+    # /dev/input is bind-mounted instead of listed in 'devices', so controllers
+    # plugged in later appear too; the rule allows input devices (major 13) only.
+    device_cgroup_rules:
+      - "c 13:* rw"
+    volumes:
+      - /dev/input:/dev/input
+      - ./data/RetroPie:/home/pi/RetroPie      # roms/<console>/ (saves sit next to the ROMs), BIOS/
+      - ./data/configs:/opt/retropie/configs   # EmulationStation, RetroArch, controller setup
+    environment:
+      # Find controllers by watching /dev/input: udev events don't reach containers.
+      SDL_JOYSTICK_DISABLE_UDEV: "1"
+      # Uncomment to force the HDMI audio port if the automatic choice is wrong.
+      # AUDIO_CARD: vc4hdmi1
