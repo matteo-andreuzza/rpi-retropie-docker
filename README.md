@@ -71,6 +71,19 @@ cd ~/rpi-retropie && git pull && docker compose up --build -d
 
 Per prendere anche gli aggiornamenti di sicurezza di Debian: `docker compose build --pull`.
 
+## Configurare controller e impostazioni
+
+Di default EmulationStation è in modalità Kiosk (solo giochi). Per avere i menu
+completi (Start → CONFIGURE INPUT, impostazioni, ecc.):
+
+```bash
+sudo docker compose down && sudo ES_KIOSK=0 docker compose up
+```
+
+Al successivo avvio normale (`docker compose up`) torna in Kiosk.
+
+In gioco: **Select+Start** esce, **Select+X** apre il menu di RetroArch.
+
 ## Note
 
 - Se la TV è spenta all'avvio del Pi, il container aspetta che la porta HDMI risulti

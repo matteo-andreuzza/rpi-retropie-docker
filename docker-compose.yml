@@ -22,5 +22,8 @@ services:
     environment:
       # Find controllers by watching /dev/input: udev events don't reach containers.
       SDL_JOYSTICK_DISABLE_UDEV: "1"
+      # Kiosk mode by default; 'sudo ES_KIOSK=0 docker compose up' opens the full
+      # menus (controller setup, settings) until the next normal start.
+      ES_KIOSK: ${ES_KIOSK:-1}
       # Uncomment to force the HDMI audio port if the automatic choice is wrong.
       # AUDIO_CARD: vc4hdmi1

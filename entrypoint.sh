@@ -42,6 +42,7 @@ pcm.!default { type plug slave.pcm "hdmi:$card" }
 ctl.!default { type hw card $card }
 EOF
 
-# Kiosk mode: games only, no settings menus.
+# Kiosk mode (games only, no settings menus) unless ES_KIOSK=0.
+[ "${ES_KIOSK:-1}" = 0 ] || set -- --force-kiosk
 exec setpriv --reuid=pi --regid=pi --init-groups env HOME=/home/pi USER=pi \
-    emulationstation --force-kiosk
+    emulationstation "$@"
