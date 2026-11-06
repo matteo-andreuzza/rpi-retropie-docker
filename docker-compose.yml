@@ -18,10 +18,12 @@ services:
       - "c 13:* rw"
     volumes:
       - /dev/input:/dev/input
+      - /run/udev:/run/udev:ro   # device info (joystick/keyboard) for RetroArch and EmulationStation
       - ./data/RetroPie:/home/pi/RetroPie      # roms/<console>/ (saves sit next to the ROMs), BIOS/
       - ./data/configs:/opt/retropie/configs   # EmulationStation, RetroArch, controller setup
     environment:
-      # Find controllers by watching /dev/input: udev events don't reach containers.
+      # EmulationStation finds controllers by watching /dev/input, so it sees
+      # them plugged in later too (udev hotplug events don't reach containers).
       SDL_JOYSTICK_DISABLE_UDEV: "1"
       # Kiosk mode by default; ES_KIOSK=0 (in .env next to this file) opens the
       # full menus (controller setup, settings).

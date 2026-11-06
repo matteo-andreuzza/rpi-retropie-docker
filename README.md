@@ -86,6 +86,9 @@ Per tornare in Kiosk: `rm ~/rpi-retropie/.env && sudo docker compose up -d`.
 
 In gioco: **Select+Start** esce, **Select+X** apre il menu di RetroArch.
 
+Una tastiera collegata a container avviato funziona solo dopo
+`sudo docker compose restart`.
+
 ## Note
 
 - Se la TV è spenta all'avvio del Pi, il container aspetta che la porta HDMI risulti
