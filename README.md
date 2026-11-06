@@ -79,10 +79,10 @@ Di default EmulationStation è in modalità Kiosk (solo giochi). Per avere i men
 completi (Start → CONFIGURE INPUT, impostazioni, ecc.):
 
 ```bash
-sudo docker compose down && sudo ES_KIOSK=0 docker compose up
+echo ES_KIOSK=0 > ~/rpi-retropie/.env && sudo docker compose up -d
 ```
 
-Per tornare in Kiosk: `sudo docker compose down && sudo docker compose up -d`.
+Per tornare in Kiosk: `rm ~/rpi-retropie/.env && sudo docker compose up -d`.
 
 In gioco: **Select+Start** esce, **Select+X** apre il menu di RetroArch.
 

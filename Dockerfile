@@ -41,7 +41,7 @@ RUN nice -n 19 ./retropie_packages.sh lr-stella2014
 
 # - RetroArch reads controllers through SDL2, which finds them without udev events.
 # - No runcommand launch menu: it needs a virtual keyboard (/dev/uinput) on the host.
-# - N64 drawn at 2x (640x480) with bilinear filtering instead of native 320x240.
+# - N64 with bilinear filtering (2x resolution is too slow on a Pi 4).
 # - Keep pristine copies of configs and RetroPie folder to fill empty host folders.
 # - Record the exact source commits that were built.
 RUN cfg=/opt/retropie/configs/all \
@@ -49,8 +49,6 @@ RUN cfg=/opt/retropie/configs/all \
     && sed -i 's/^disable_menu = .*/disable_menu = "1"/' $cfg/runcommand.cfg \
     && grep -q '^input_joypad_driver = "sdl2"' $cfg/retroarch.cfg \
     && grep -q '^disable_menu = "1"' $cfg/runcommand.cfg \
-    && sed -i 's/^mupen64plus-next-EnableNativeResFactor = .*/mupen64plus-next-EnableNativeResFactor = "2"/' $cfg/retroarch-core-options.cfg \
-    && grep -q '^mupen64plus-next-EnableNativeResFactor = "2"' $cfg/retroarch-core-options.cfg \
     && echo 'video_smooth = "true"' >> /opt/retropie/configs/n64/retroarch.cfg \
     && grep -H 'pkg_repo_\(url\|branch\|commit\)' /opt/retropie/*/*/retropie.pkg > /opt/retropie/VERSIONS \
     && cp -a /opt/retropie/configs /opt/retropie/configs.dist \
