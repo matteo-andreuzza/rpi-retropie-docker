@@ -11,9 +11,9 @@ ARG RETROPIE_SETUP_COMMIT=7a9d751e606702734da976981845ad28ee157ba9
 # Build-time settings only (ARGs don't end up in the running container):
 # - RetroPie can't detect the board from inside a build container, so name it.
 # - __user is who RetroPie installs for (it normally reads it from sudo).
-# - RetroPie runs make -j$(nproc) and nproc honours OMP_NUM_THREADS: 2 jobs
-#   keep the long build gentle on the Pi's power supply and its other containers.
-ARG __platform=rpi4 __has_kms=1 __user=pi OMP_NUM_THREADS=2 DEBIAN_FRONTEND=noninteractive
+# - RetroPie runs make -j$(nproc) and nproc honours OMP_NUM_THREADS: use all
+#   4 cores (lower it, e.g. --build-arg OMP_NUM_THREADS=2, if the power supply struggles).
+ARG __platform=rpi4 __has_kms=1 __user=pi OMP_NUM_THREADS=4 DEBIAN_FRONTEND=noninteractive
 
 # iproute2: RetroPie checks for internet access with 'ip route'.
 RUN apt-get update \
