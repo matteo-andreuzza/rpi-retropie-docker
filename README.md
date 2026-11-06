@@ -30,8 +30,10 @@ Nient'altro da installare o configurare.
 ```bash
 git clone https://github.com/matteo-andreuzza/rpi-retropie-docker.git ~/rpi-retropie
 cd ~/rpi-retropie
-docker compose up --build
+sudo docker compose up -d --build
 ```
+
+Da quel momento il container parte da solo a ogni avvio del Pi.
 
 La prima build compila tutto sul Pi e richiede alcune ore. Se si interrompe (per esempio
 cade la connessione SSH), basta rilanciare lo stesso comando: i moduli già compilati
@@ -57,7 +59,7 @@ di default.
 Dopo aver copiato nuove ROM:
 
 ```bash
-docker compose restart
+sudo docker compose restart
 ```
 
 Per reinstallare su un altro Pi o disco: copiare `~/rpi-retropie/data/` e ripetere
@@ -66,10 +68,10 @@ l'installazione.
 ## Aggiornare
 
 ```bash
-cd ~/rpi-retropie && git pull && docker compose up --build -d
+cd ~/rpi-retropie && git pull && sudo docker compose up -d --build
 ```
 
-Per prendere anche gli aggiornamenti di sicurezza di Debian: `docker compose build --pull`.
+Per prendere anche gli aggiornamenti di sicurezza di Debian: `sudo docker compose build --pull`.
 
 ## Configurare controller e impostazioni
 
@@ -80,7 +82,7 @@ completi (Start → CONFIGURE INPUT, impostazioni, ecc.):
 sudo docker compose down && sudo ES_KIOSK=0 docker compose up
 ```
 
-Al successivo avvio normale (`docker compose up`) torna in Kiosk.
+Per tornare in Kiosk: `sudo docker compose down && sudo docker compose up -d`.
 
 In gioco: **Select+Start** esce, **Select+X** apre il menu di RetroArch.
 
@@ -97,7 +99,7 @@ In gioco: **Select+Start** esce, **Select+X** apre il menu di RetroArch.
 
 ```bash
 cd ~/rpi-retropie
-docker compose down --rmi local --volumes
+sudo docker compose down --rmi local --volumes
 # opzionale, cancella ROM, salvataggi e configurazioni:
 # rm -rf ~/rpi-retropie/data
 ```

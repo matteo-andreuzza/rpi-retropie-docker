@@ -43,6 +43,8 @@ ctl.!default { type hw card $card }
 EOF
 
 # Kiosk mode (games only, no settings menus) unless ES_KIOSK=0.
+# Start RetroPie's ES loop script directly: the usual /usr/bin/emulationstation
+# wrapper shows a crash dialog that waits for a key and would block the restart.
 [ "${ES_KIOSK:-1}" = 0 ] || set -- --force-kiosk
 exec setpriv --reuid=pi --regid=pi --init-groups env HOME=/home/pi USER=pi \
-    emulationstation "$@"
+    /opt/retropie/supplementary/emulationstation/emulationstation.sh "$@"

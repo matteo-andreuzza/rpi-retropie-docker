@@ -5,6 +5,7 @@ services:
   retropie:
     build: .
     image: rpi-retropie:local
+    restart: unless-stopped   # starts with the Pi and comes back if EmulationStation exits
     init: true   # forwards stop signals, so 'docker compose down' is quick
     tty: true    # EmulationStation's launcher scripts expect a terminal
     # No 'ports' and no 'privileged': nothing is reachable from the network.
