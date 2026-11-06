@@ -15,8 +15,9 @@ ARG RETROPIE_SETUP_COMMIT=7a9d751e606702734da976981845ad28ee157ba9
 #   keep the long build gentle on the Pi's power supply and its other containers.
 ARG __platform=rpi4 __has_kms=1 __user=pi OMP_NUM_THREADS=2 DEBIAN_FRONTEND=noninteractive
 
+# iproute2: RetroPie checks for internet access with 'ip route'.
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends ca-certificates git libgl1-mesa-dri \
+    && apt-get install -y --no-install-recommends ca-certificates git iproute2 libgl1-mesa-dri \
     && useradd -m -s /bin/bash pi \
     && git clone https://github.com/RetroPie/RetroPie-Setup.git /home/pi/RetroPie-Setup \
     && git -C /home/pi/RetroPie-Setup checkout -q "$RETROPIE_SETUP_COMMIT" \
