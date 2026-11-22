@@ -42,6 +42,18 @@ pcm.!default { type plug slave.pcm "hdmi:$card" }
 ctl.!default { type hw card $card }
 EOF
 
+# N64: let the audio set the pace. With vsync a late frame stalls emulation and
+# the sound runs dry; without it KMS just drops that frame. Plain ALSA with a
+# larger buffer, because the default 'alsathread' pads gaps with silence.
+# RetroArch keeps the first value it reads, so these go above the #include line.
+# Keys already in the file are left alone, to keep manual changes in data/configs.
+n64_cfg=/opt/retropie/configs/n64/retroarch.cfg
+if [ -s "$n64_cfg" ]; then
+    for setting in 'audio_latency = "128"' 'audio_driver = "alsa"' 'video_vsync = "false"'; do
+        grep -q "^${setting%% *} " "$n64_cfg" || sed -i "1i $setting" "$n64_cfg"
+    done
+fi
+
 # Kiosk mode (games only, no settings menus) unless ES_KIOSK=0.
 # Start RetroPie's ES loop script directly: the usual /usr/bin/emulationstation
 # wrapper shows a crash dialog that waits for a key and would block the restart.
